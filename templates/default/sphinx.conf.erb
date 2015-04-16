@@ -1,0 +1,61 @@
+source src_base
+{
+    type     = <%= node['sphinx']['db_type'] %>
+    sql_host = <%= node['sphinx']['database']['host'] %>
+    sql_user = <%= node['sphinx']['database']['user'] %>
+    sql_pass = <%= node['sphinx']['database']['password'] %>
+    sql_db   = <%= node['sphinx']['database']['name'] %>
+    sql_port = 3306
+
+    sql_query_pre = SET NAMES utf8
+
+    sql_ranged_throttle = 0
+}
+
+<%= @sources %>
+
+index base
+{
+    type         = plain
+    wordforms    = <%= node['sphinx']['install_path'] %>/wordforms.txt
+    stopwords    = <%= node['sphinx']['install_path'] %>/stopwords.txt
+    docinfo      = extern
+    mlock        = 0
+    morphology   = stem_en
+    min_word_len = 1
+    charset_type = utf-8
+    html_strip   = 0
+}
+
+<%= @indexes %>
+
+#############################################################################
+## indexer settings
+#############################################################################
+
+indexer
+{
+    mem_limit = 32M
+}
+
+#############################################################################
+## searchd settings
+#############################################################################
+
+searchd
+{
+    listen                  = 9312
+    listen                  = 9306:mysql41
+    log                     = <%= node['sphinx']['install_path'] %>/searchd.log
+    query_log               = <%= node['sphinx']['install_path'] %>/query.log
+    dist_threads            = 2
+    read_timeout            = 5
+    max_children            = 30
+    pid_file                = <%= node['sphinx']['install_path'] %>/searchd.pid
+    max_matches             = 1000
+    seamless_rotate         = 1
+    preopen_indexes         = 1
+    unlink_old              = 1
+}
+
+# --eof--
