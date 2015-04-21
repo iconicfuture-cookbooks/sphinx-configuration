@@ -53,7 +53,7 @@ DOC
     # make final sphinx.conf available in repository
     bash "Copy sphinx.conf to right service repo" do
       code <<-EOH
-        cp "#{node['sphinx']['install_path']}/sphinx.conf" "#{node['services']['right-service']['nginx']['root']}/sphinx"
+        cp "#{node['sphinx']['install_path']}/sphinx.conf" "#{node['sites']['right-service']['nginx']['root']}/sphinx"
         pwd >> /home/vagrant/tmp.txt
       EOH
     end
@@ -72,7 +72,7 @@ DOC
       group node[:sphinx][:group]
       mode '0644'
       variables :install_path => node['sphinx']['install_path'],
-      :partials => { "#{node['services']['right-service']['nginx']['root']}/sql/src_rightsholder.conf.part.erb" => "rightsholder"}
+      :partials => { "#{node['sites']['right-service']['nginx']['root']}/sql/src_rightsholder.conf.part.erb" => "rightsholder"}
     end
 
     execute "sphinx - rebuild index" do
