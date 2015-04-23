@@ -34,7 +34,7 @@ unless node['sphinx'].nil?
 index #{name} : base
 {
     source = src_#{name}
-    path   = #{node['sphinx']['install_path']}/#{name}
+    path   = /var/data/sphinxsearch/#{name}
 }\n
 DOC
         indexes = indexes << index

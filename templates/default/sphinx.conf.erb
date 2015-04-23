@@ -46,8 +46,8 @@ searchd
 {
     listen                  = 9312
     listen                  = 9306:mysql41
-    log                     = <%= node['sphinx']['install_path'] %>/searchd.log
-    query_log               = <%= node['sphinx']['install_path'] %>/query.log
+    log                     = /var/log/searchd.log
+    query_log               = /var/log/query.log
     dist_threads            = 2
     read_timeout            = 5
     max_children            = 30
