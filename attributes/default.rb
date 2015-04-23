@@ -14,3 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+# Installation Settings
+default[:sphinx][:install_path] = "/etc/sphinxsearch"
+default[:sphinx][:pid_path] = "/var/run/sphinxsearch"

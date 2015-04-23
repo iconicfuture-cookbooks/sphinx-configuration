@@ -83,7 +83,7 @@ DOC
 
     execute "sphinx - stop searchd if started" do
       command "if pgrep searchd &> /dev/null ; then searchd --stop ; fi"
-      only_if { File.exists?("/var/run/sphinxsearch/searchd.pid") }
+      only_if { File.exists?("#{node['sphinx']['pid_path']}/searchd.pid") }
       ignore_failure true
       user "root"
     end

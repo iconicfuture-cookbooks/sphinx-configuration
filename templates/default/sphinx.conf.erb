@@ -51,7 +51,7 @@ searchd
     dist_threads            = 2
     read_timeout            = 5
     max_children            = 30
-    pid_file                = /var/run/sphinxsearch/searchd.pid
+    pid_file                = <%= node['sphinx']['pid_path'] %>/searchd.pid
     max_matches             = 1000
     seamless_rotate         = 1
     preopen_indexes         = 1
