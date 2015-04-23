@@ -19,6 +19,8 @@
 unless node['sphinx'].nil?
   unless node['sphinx']['sources'].nil?
 
+    puts "configure #{node['sphinx']['install_path']}/sphinx.conf"
+
     sources = ""
     indexes = ""
 
@@ -58,6 +60,10 @@ DOC
       EOH
     end
 
+    puts "#{node['sphinx']['install_path']}/sphinx.conf created" do
+      only_if { File.exists?("#{node['sphinx']['install_path']}/sphinx.conf") }
+    end
+
     template "#{node['sphinx']['install_path']}/wordforms.txt" do
       source "wordforms.txt.erb"
       owner node[:sphinx][:user]
@@ -75,10 +81,23 @@ DOC
       :partials => { "#{node['sites']['right-service']['nginx']['root']}/sql/src_rightsholder.conf.part.erb" => "rightsholder"}
     end
 
+    execute "sphinx - stop searchd if started" do
+      command "if pgrep searchd &> /dev/null ; then searchd --stop ; fi"
+      only_if { File.exists?("/var/run/sphinxsearch/searchd.pid") }
+      ignore_failure true
+      user "root"
+    end
+
     execute "sphinx - rebuild index" do
-        command "indexer --rotate --all"
-        ignore_failure true
-        user "root"
+      command "indexer --rotate --all"
+      ignore_failure true
+      user "root"
+    end
+
+    execute "sphinx - start searchd" do
+      command "searchd"
+      ignore_failure true
+      user "root"
     end
 
   end
