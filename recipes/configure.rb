@@ -14,6 +14,24 @@
 #   variables :install_path => node['sphinx']['install_path']
 # end
 
+# create directories if missing
+
+directory "/var/data" do
+  owner 'root'
+  group 'root'
+  mode '0755'
+  action :create
+end
+
+%w[ /var/run/sphinxsearch /var/log/sphinxsearch /var/data/sphinxsearch ].each do |path|
+  directory path do
+    owner node[:sphinx][:user]
+    group node[:sphinx][:group]
+    mode '0755'
+  action :create
+  end
+end
+
 # build sphinx.conf from single sources
 
 unless node['sphinx'].nil?
