@@ -23,7 +23,7 @@ directory "/var/data" do
   action :create
 end
 
-%w[ /var/run/sphinxsearch /var/log/sphinxsearch /var/data/sphinxsearch ].each do |path|
+%w[ /etc/sphinxsearch /var/run/sphinxsearch /var/log/sphinxsearch /var/data/sphinxsearch ].each do |path|
   directory path do
     owner node[:sphinx][:user]
     group node[:sphinx][:group]

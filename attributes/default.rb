@@ -17,4 +17,4 @@
 
 # Installation Settings
 default[:sphinx][:install_path] = "/etc/sphinxsearch"
-default[:sphinx][:pid_path] = "/var/run/sphinxsearch"
+default[:sphinx][:pid_path] = "/etc/sphinxsearch"
